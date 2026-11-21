@@ -1,0 +1,158 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Products | StockBharo{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">S</div>
+            <span>StockBharo</span>
+        </div>
+
+        <div class="sidebar-section-label">WORKSPACE</div>
+
+        <nav class="sidebar-nav">
+            <a href="{% url 'dashboard' %}" class="sidebar-link">
+                <span>▦</span> Dashboard
+            </a>
+
+            <a href="{% url 'product_list' %}" class="sidebar-link active">
+                <span>▤</span> Products
+            </a>
+
+            <a href="#" class="sidebar-link"><span>▧</span> Categories</a>
+            <a href="#" class="sidebar-link"><span>▥</span> Inventory</a>
+            <a href="#" class="sidebar-link"><span>♧</span> Suppliers</a>
+            <a href="#" class="sidebar-link"><span>▣</span> Purchase Orders</a>
+            <a href="#" class="sidebar-link"><span>₹</span> Sales</a>
+
+            <div class="sidebar-section-label mt-4">INSIGHTS</div>
+
+            <a href="#" class="sidebar-link"><span>◫</span> Analytics</a>
+            <a href="#" class="sidebar-link"><span>♧</span> Notifications</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="#" class="sidebar-link"><span>⚙</span> Settings</a>
+            <a href="{% url 'logout' %}" class="sidebar-link logout-link">
+                <span>↗</span> Logout
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <header class="dashboard-topbar">
+            <div>
+                <h2>Products</h2>
+                <p>Manage and organize your business products.</p>
+            </div>
+
+            <div class="topbar-actions">
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        {{ request.user.first_name|first|upper }}
+                    </div>
+
+                    <div>
+                        <strong>{{ request.user.first_name }}</strong>
+                        <small>Product Management</small>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="dashboard-content">
+
+            <div class="dashboard-heading">
+                <div>
+                    <h3>All Products</h3>
+                    <p>Manage products for {{ organization.name }}</p>
+                </div>
+
+                <a href="{% url 'add_product' %}" class="primary-action">
+    + Add Product
+</a>
+            </div>
+
+            <div class="dashboard-panel">
+
+                <div class="product-table-header">
+                    <h4>Product Inventory</h4>
+                    <span>{{ products|length }} products</span>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table align-middle">
+
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>SKU</th>
+                                <th>Category</th>
+                                <th>Cost Price</th>
+                                <th>Selling Price</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for product in products %}
+
+                            <tr>
+                                <td>
+                                    <strong>{{ product.name }}</strong>
+                                </td>
+
+                                <td>{{ product.sku }}</td>
+
+                                <td>
+                                    {% if product.category %}
+                                        {{ product.category.name }}
+                                    {% else %}
+                                        Uncategorized
+                                    {% endif %}
+                                </td>
+
+                                <td>₹{{ product.cost_price }}</td>
+
+                                <td>₹{{ product.selling_price }}</td>
+
+                                <td>
+                                    <span class="status-active">Active</span>
+                                </td>
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+                                <td colspan="6" class="text-center py-5">
+                                    No products found. Add your first product soon!
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}

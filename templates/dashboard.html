@@ -6,93 +6,230 @@
 
 {% block content %}
 
-<div class="container-fluid">
-    <div class="row">
+<div class="dashboard-layout">
 
-        <!-- Sidebar -->
-        <aside class="col-md-2 bg-dark text-white min-vh-100 p-4">
-            <h3 class="mb-5">StockBharo</h3>
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
 
-            <nav class="nav flex-column gap-3">
-                <a href="{% url 'dashboard' %}" class="nav-link text-white">
-                    Dashboard
-                </a>
-                <a href="#" class="nav-link text-white">
-                    Products
-                </a>
-                <a href="#" class="nav-link text-white">
-                    Categories
-                </a>
-                <a href="#" class="nav-link text-white">
-                    Inventory
-                </a>
-                <a href="#" class="nav-link text-white">
-                    Suppliers
-                </a>
-                <a href="#" class="nav-link text-white">
-                    Sales
-                </a>
-                <a href="#" class="nav-link text-white">
-                    Analytics
-                </a>
-            </nav>
+        <div class="sidebar-brand">
+            <div class="brand-icon">S</div>
+            <span>StockBharo</span>
+        </div>
 
-            <div class="mt-5">
-                <a href="{% url 'logout' %}" class="nav-link text-white">
-                    Logout
-                </a>
+        <div class="sidebar-section-label">WORKSPACE</div>
+
+        <nav class="sidebar-nav">
+
+            <a href="{% url 'dashboard' %}" class="sidebar-link active">
+                <span>▦</span>
+                Dashboard
+            </a>
+
+            <a href="{% url 'product_list' %}" class="sidebar-link">
+    <span>▤</span>Products
+</a>
+
+            <a href="#" class="sidebar-link">
+                <span>▧</span>
+                Categories
+            </a>
+
+            <a href="#" class="sidebar-link">
+                <span>▥</span>
+                Inventory
+            </a>
+
+            <a href="#" class="sidebar-link">
+                <span>♧</span>
+                Suppliers
+            </a>
+
+            <a href="#" class="sidebar-link">
+                <span>▣</span>
+                Purchase Orders
+            </a>
+
+            <a href="#" class="sidebar-link">
+                <span>₹</span>
+                Sales
+            </a>
+
+            <div class="sidebar-section-label mt-4">INSIGHTS</div>
+
+            <a href="#" class="sidebar-link">
+                <span>◫</span>
+                Analytics
+            </a>
+
+            <a href="#" class="sidebar-link">
+                <span>♧</span>
+                Notifications
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="#" class="sidebar-link">
+                <span>⚙</span>
+                Settings
+            </a>
+
+            <a href="{% url 'logout' %}" class="sidebar-link logout-link">
+                <span>↗</span>
+                Logout
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- Main Dashboard -->
+    <main class="dashboard-main">
+
+        <!-- Topbar -->
+        <header class="dashboard-topbar">
+
+            <div>
+                <h2>Dashboard</h2>
+                <p>Welcome back! Here's your business overview.</p>
             </div>
-        </aside>
 
-        <!-- Main Content -->
-        <main class="col-md-10 p-4">
+            <div class="topbar-actions">
+                <button class="notification-button">♧</button>
 
-            <h2>Welcome to StockBharo!</h2>
-            <p class="text-muted">
-                Here's what's happening with your inventory today.
-            </p>
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        {{ request.user.first_name|first|upper }}
+                    </div>
 
-            <div class="row mt-4 g-3">
+                    <div>
+                       <strong>{{ request.user.first_name }}</strong>
+                       <small>{{ user_role|default:"Member" }}</small>
+                    </div>
+                </div>
+            </div>
 
-                <div class="col-md-3">
-                    <div class="card p-3 shadow-sm">
-                        <h6>Total Products</h6>
-                        <h2>0</h2>
+        </header>
+
+
+        <!-- Page Content -->
+        <section class="dashboard-content">
+
+            <div class="dashboard-heading">
+                <div>
+                    <h3>{{ organization.name|default:"Business Overview" }}</h3>
+                    <p>Monitor your inventory and business performance.</p>
+                </div>
+
+                <button class="primary-action">
+                    + Add Product
+                </button>
+            </div>
+
+
+            <!-- Statistics Cards -->
+            <div class="dashboard-stats">
+
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <span>Total Products</span>
+                        <div class="stat-icon teal">▤</div>
+                    </div>
+                    <h2>0</h2>
+                    <small>Products in your inventory</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <span>Low Stock Items</span>
+                        <div class="stat-icon orange">⚠</div>
+                    </div>
+                    <h2>{{ total_products }}</h2>
+                    <small>Items requiring attention</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <span>Total Suppliers</span>
+                        <div class="stat-icon blue">♧</div>
+                    </div>
+                    <h2>0</h2>
+                    <small>Connected suppliers</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <span>Today's Sales</span>
+                        <div class="stat-icon purple">₹</div>
+                    </div>
+                    <h2>₹0</h2>
+                    <small>Sales recorded today</small>
+                </div>
+
+            </div>
+
+
+            <!-- Analytics Section -->
+            <div class="dashboard-panels">
+
+                <div class="dashboard-panel inventory-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h4>Inventory Overview</h4>
+                            <p>Track your stock performance</p>
+                        </div>
+                        <span class="panel-menu">•••</span>
+                    </div>
+
+                    <div class="empty-chart">
+                        <div class="empty-chart-icon">▥</div>
+                        <h5>Inventory analytics coming soon</h5>
+                        <p>Your stock movement insights will appear here.</p>
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <div class="card p-3 shadow-sm">
-                        <h6>Low Stock Items</h6>
-                        <h2>0</h2>
-                    </div>
-                </div>
 
-                <div class="col-md-3">
-                    <div class="card p-3 shadow-sm">
-                        <h6>Total Suppliers</h6>
-                        <h2>0</h2>
+                <div class="dashboard-panel alerts-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h4>Stock Alerts</h4>
+                            <p>Items needing attention</p>
+                        </div>
+                        <span class="alert-count">0</span>
                     </div>
-                </div>
 
-                <div class="col-md-3">
-                    <div class="card p-3 shadow-sm">
-                        <h6>Today's Sales</h6>
-                        <h2>₹0</h2>
+                    <div class="empty-alerts">
+                        <div class="empty-alert-icon">✓</div>
+                        <h5>All caught up!</h5>
+                        <p>No stock alerts available.</p>
                     </div>
                 </div>
 
             </div>
 
-            <div class="card shadow-sm p-4 mt-4">
-                <h5>Inventory Overview</h5>
-                <p class="text-muted">
-                    Your inventory analytics will appear here.
-                </p>
+
+            <!-- Recent Activity -->
+            <div class="dashboard-panel activity-panel">
+
+                <div class="panel-heading">
+                    <div>
+                        <h4>Recent Activity</h4>
+                        <p>Your latest inventory transactions</p>
+                    </div>
+
+                    <a href="#" class="view-all-link">View all</a>
+                </div>
+
+                <div class="empty-activity">
+                    No recent inventory activity to display.
+                </div>
+
             </div>
 
-        </main>
-    </div>
+        </section>
+
+    </main>
+
 </div>
 
 {% endblock %}

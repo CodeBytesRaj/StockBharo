@@ -1,4 +1,5 @@
-
+from organizations.models import Membership
+from products.models import Product
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -62,8 +63,30 @@ def logout_page(request):
     return redirect('login')
 
 
-# Protected dashboard
 @login_required(login_url='login')
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    membership = Membership.objects.filter(
+        user=request.user
+    ).select_related('organization').first()
+
+    organization = None
+    user_role = None
+    total_products = 0
+
+    if membership:
+        organization = membership.organization
+        user_role = membership.role
+
+        total_products = Product.objects.filter(
+            organization=organization,
+            is_active=True
+        ).count()
+
+    context = {
+        'organization': organization,
+        'user_role': user_role,
+        'total_products': total_products,
+    }
+
+    return render(request, 'dashboard.html', context)
 
