@@ -1,4 +1,4 @@
-
+from django.urls import path, include
 from django.contrib import admin
 from django.urls import path, include
 from . import views
@@ -15,6 +15,7 @@ urlpatterns = [
 
     # Product management
     path('products/', include('products.urls')),
+    path('inventory/', include('inventory.urls')),
 ]
 
 
