@@ -1,0 +1,189 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Suppliers | StockBharo{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">S</div>
+            <span>StockBharo</span>
+        </div>
+
+        <div class="sidebar-section-label">WORKSPACE</div>
+
+        <nav class="sidebar-nav">
+            <a href="{% url 'dashboard' %}" class="sidebar-link">
+                <span>▦</span> Dashboard
+            </a>
+
+            <a href="{% url 'product_list' %}" class="sidebar-link">
+                <span>▤</span> Products
+            </a>
+
+            <a href="{% url 'inventory_dashboard' %}" class="sidebar-link">
+                <span>▥</span> Inventory
+            </a>
+
+            <a href="{% url 'supplier_list' %}" class="sidebar-link active">
+                <span>♧</span> Suppliers
+            </a>
+        </nav>
+
+        <div class="sidebar-section-label">ACCOUNT</div>
+
+        <nav class="sidebar-nav">
+            <a href="{% url 'logout' %}" class="sidebar-link">
+                <span>⇥</span> Logout
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <header class="dashboard-topbar">
+            <div>
+                <h2>Supplier Management</h2>
+                <p>Manage your business suppliers and contacts.</p>
+            </div>
+
+            <div class="user-profile">
+                <div class="user-avatar">
+                    {{ request.user.first_name|first|upper }}
+                </div>
+                <div>
+                    <strong>{{ request.user.first_name }}</strong>
+                    <small>{{ organization.name }}</small>
+                </div>
+            </div>
+        </header>
+
+        <section class="dashboard-content">
+
+            <!-- Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close"
+                                data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Page Heading -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3>All Suppliers</h3>
+                    <p class="text-muted mb-0">
+                        Your supplier directory
+                    </p>
+                </div>
+
+                <a href="{% url 'add_supplier' %}" class="btn btn-success">
+                    + Add Supplier
+                </a>
+            </div>
+
+            <!-- Supplier Count -->
+            <div class="stats-grid mb-4">
+                <div class="stat-card">
+                    <div class="stat-info">
+                        <p>Total Suppliers</p>
+                        <h3>{{ suppliers|length }}</h3>
+                    </div>
+                    <div class="stat-icon">♧</div>
+                </div>
+            </div>
+
+            <!-- Supplier Table -->
+            <div class="dashboard-panel">
+                <div class="panel-header">
+                    <div>
+                        <h4>Supplier Directory</h4>
+                        <p>Contact information and supplier status</p>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Supplier</th>
+                                <th>Contact Person</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for supplier in suppliers %}
+                            <tr>
+                                <td>
+                                    <strong>{{ supplier.name }}</strong>
+                                </td>
+
+                                <td>
+                                    {{ supplier.contact_person|default:"—" }}
+                                </td>
+
+                                <td>{{ supplier.phone }}</td>
+
+                                <td>
+                                    {{ supplier.email|default:"—" }}
+                                </td>
+
+                                <td>
+                                    {% if supplier.is_active %}
+                                        <span class="badge bg-success">Active</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Inactive</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    <a href="{% url 'edit_supplier' supplier.id %}"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Edit
+                                    </a>
+
+                                    {% if supplier.is_active %}
+                                    <a href="{% url 'deactivate_supplier' supplier.id %}"
+                                       class="btn btn-sm btn-outline-danger">
+                                        Deactivate
+                                    </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center py-5">
+                                    <h5>No suppliers added yet</h5>
+                                    <p class="text-muted">
+                                        Add your first supplier to get started.
+                                    </p>
+                                    <a href="{% url 'add_supplier' %}"
+                                       class="btn btn-success">
+                                        Add Your First Supplier
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+    </main>
+</div>
+
+{% endblock %}

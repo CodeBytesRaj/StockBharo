@@ -1,0 +1,93 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Deactivate Supplier | StockBharo{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">S</div>
+            <span>StockBharo</span>
+        </div>
+
+        <div class="sidebar-section-label">WORKSPACE</div>
+
+        <nav class="sidebar-nav">
+            <a href="{% url 'dashboard' %}" class="sidebar-link">
+                <span>▦</span> Dashboard
+            </a>
+
+            <a href="{% url 'product_list' %}" class="sidebar-link">
+                <span>▤</span> Products
+            </a>
+
+            <a href="{% url 'inventory_dashboard' %}" class="sidebar-link">
+                <span>▥</span> Inventory
+            </a>
+
+            <a href="{% url 'supplier_list' %}" class="sidebar-link active">
+                <span>♧</span> Suppliers
+            </a>
+        </nav>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-topbar">
+            <div>
+                <h2>Deactivate Supplier</h2>
+                <p>Review this action before continuing.</p>
+            </div>
+        </header>
+
+        <section class="dashboard-content">
+
+            <div class="dashboard-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h4>Confirm Deactivation</h4>
+                        <p>You are about to deactivate this supplier.</p>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning">
+                    Are you sure you want to deactivate
+                    <strong>{{ supplier.name }}</strong>?
+                    This supplier will remain in your records but will be
+                    marked inactive.
+                </div>
+
+                <p>
+                    <strong>Contact Person:</strong>
+                    {{ supplier.contact_person|default:"—" }}
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    {{ supplier.phone }}
+                </p>
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <button type="submit" class="btn btn-danger">
+                        Yes, Deactivate Supplier
+                    </button>
+
+                    <a href="{% url 'supplier_list' %}"
+                       class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                </form>
+
+            </div>
+
+        </section>
+    </main>
+</div>
+
+{% endblock %}

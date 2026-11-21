@@ -16,6 +16,7 @@ urlpatterns = [
     # Product management
     path('products/', include('products.urls')),
     path('inventory/', include('inventory.urls')),
+    path('suppliers/', include('suppliers.urls')),
 ]
 
 
