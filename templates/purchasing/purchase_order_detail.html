@@ -1,0 +1,242 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Purchase Order Details | StockBharo{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">S</div>
+            <span>StockBharo</span>
+        </div>
+
+        <div class="sidebar-section-label">WORKSPACE</div>
+
+        <nav class="sidebar-nav">
+            <a href="{% url 'dashboard' %}" class="sidebar-link">
+                <span>▦</span> Dashboard
+            </a>
+            <a href="{% url 'product_list' %}" class="sidebar-link">
+                <span>▤</span> Products
+            </a>
+            <a href="{% url 'inventory_dashboard' %}" class="sidebar-link">
+                <span>▥</span> Inventory
+            </a>
+            <a href="{% url 'supplier_list' %}" class="sidebar-link">
+                <span>♧</span> Suppliers
+            </a>
+            <a href="{% url 'purchase_order_list' %}" class="sidebar-link active">
+                <span>▣</span> Purchases
+            </a>
+        </nav>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-topbar">
+            <div>
+                <h2>Purchase Order Details</h2>
+                <p>Manage products and incoming stock.</p>
+            </div>
+        </header>
+
+        <section class="dashboard-content">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Order Information -->
+            <div class="dashboard-panel mb-4">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h3>{{ purchase_order.order_number }}</h3>
+                        <p class="text-muted mb-0">
+                            Supplier: {{ purchase_order.supplier.name }}
+                        </p>
+                    </div>
+
+                    <span class="badge bg-secondary fs-6">
+                        {{ purchase_order.get_status_display }}
+                    </span>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <small class="text-muted">Order Date</small>
+                        <h6>{{ purchase_order.order_date|date:"d M Y" }}</h6>
+                    </div>
+
+                    <div class="col-md-4">
+                        <small class="text-muted">Expected Delivery</small>
+                        <h6>
+                            {{ purchase_order.expected_date|date:"d M Y"|default:"Not specified" }}
+                        </h6>
+                    </div>
+
+                    <div class="col-md-4">
+                        <small class="text-muted">Created By</small>
+                        <h6>{{ purchase_order.created_by.first_name }}</h6>
+                    </div>
+                </div>
+
+                {% if purchase_order.notes %}
+                    <hr>
+                    <p><strong>Notes:</strong> {{ purchase_order.notes }}</p>
+                {% endif %}
+
+                {% if purchase_order.status == "DRAFT" %}
+                    <form method="POST"
+                          action="{% url 'place_purchase_order' purchase_order.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success mt-3"
+                                {% if not items %}disabled{% endif %}>
+                            Place Purchase Order
+                        </button>
+                    </form>
+                {% endif %}
+
+            </div>
+
+            <!-- Add Products -->
+            {% if purchase_order.status == "DRAFT" %}
+                <div class="dashboard-panel mb-4">
+
+                    <h3 class="mb-3">Add Product to Order</h3>
+
+                    <form method="POST"
+                          action="{% url 'add_purchase_order_item' purchase_order.id %}">
+                        {% csrf_token %}
+
+                        <div class="row g-3">
+
+                            <div class="col-md-4">
+                                <label class="form-label">Product</label>
+                                {{ item_form.product }}
+                                {% for error in item_form.product.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Quantity</label>
+                                {{ item_form.quantity_ordered }}
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label">Unit Cost (₹)</label>
+                                {{ item_form.unit_cost }}
+                            </div>
+
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-success w-100">
+                                    Add
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+            {% endif %}
+
+            <!-- Product Items -->
+            <div class="dashboard-panel">
+
+                <h3 class="mb-3">Order Products</h3>
+
+                <div class="table-responsive">
+                    <table class="table align-middle">
+
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Ordered</th>
+                                <th>Received</th>
+                                <th>Remaining</th>
+                                <th>Unit Cost</th>
+                                <th>Line Total</th>
+                                {% if purchase_order.status == "ORDERED" or purchase_order.status == "PARTIALLY_RECEIVED" %}
+                                    <th>Receive Stock</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for item in items %}
+                                <tr>
+                                    <td><strong>{{ item.product.name }}</strong></td>
+                                    <td>{{ item.quantity_ordered }}</td>
+                                    <td>{{ item.quantity_received }}</td>
+                                    <td>{{ item.remaining_quantity }}</td>
+                                    <td>₹{{ item.unit_cost }}</td>
+                                    <td>₹{{ item.line_total }}</td>
+
+                                    {% if purchase_order.status == "ORDERED" or purchase_order.status == "PARTIALLY_RECEIVED" %}
+                                        <td>
+                                            {% if item.remaining_quantity > 0 %}
+                                                <form method="POST"
+                                                      action="{% url 'receive_purchase_order_item' purchase_order.id item.id %}"
+                                                      class="d-flex gap-2">
+                                                    {% csrf_token %}
+                                                    <input type="number"
+                                                           name="quantity"
+                                                           min="1"
+                                                           max="{{ item.remaining_quantity }}"
+                                                           class="form-control"
+                                                           placeholder="Qty"
+                                                           required>
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-success">
+                                                        Receive
+                                                    </button>
+                                                </form>
+                                            {% else %}
+                                                <span class="text-success">Completed</span>
+                                            {% endif %}
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="7" class="text-center py-4">
+                                        No products added to this order yet.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
+
+                <div class="mt-3">
+                   <h5>
+    Total Purchase Amount: ₹{{ purchase_order.total_amount|floatformat:2 }}
+</h5>
+                </div>
+
+            </div>
+
+            <div class="mt-4">
+                <a href="{% url 'purchase_order_list' %}"
+                   class="btn btn-outline-secondary">
+                    Back to Purchase Orders
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}

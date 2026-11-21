@@ -1,0 +1,140 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Purchase Orders | StockBharo{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">S</div>
+            <span>StockBharo</span>
+        </div>
+
+        <div class="sidebar-section-label">WORKSPACE</div>
+
+        <nav class="sidebar-nav">
+            <a href="{% url 'dashboard' %}" class="sidebar-link">
+                <span>▦</span> Dashboard
+            </a>
+            <a href="{% url 'product_list' %}" class="sidebar-link">
+                <span>▤</span> Products
+            </a>
+            <a href="{% url 'inventory_dashboard' %}" class="sidebar-link">
+                <span>▥</span> Inventory
+            </a>
+            <a href="{% url 'supplier_list' %}" class="sidebar-link">
+                <span>♧</span> Suppliers
+            </a>
+            <a href="{% url 'purchase_order_list' %}" class="sidebar-link active">
+                <span>▣</span> Purchases
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <header class="dashboard-topbar">
+            <div>
+                <h2>Purchase Orders</h2>
+                <p>Manage supplier orders and incoming stock.</p>
+            </div>
+
+            <div class="topbar-user">
+                <div class="user-avatar">
+                    {{ request.user.first_name|first|upper }}
+                </div>
+                <div>
+                    <strong>{{ request.user.first_name }}</strong>
+                    <small>{{ organization.name }}</small>
+                </div>
+            </div>
+        </header>
+
+        <section class="dashboard-content">
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3>All Purchase Orders</h3>
+                    <p class="text-muted">Track and manage your purchases.</p>
+                </div>
+
+                <a href="{% url 'create_purchase_order' %}" class="btn btn-success">
+                    + Create Purchase Order
+                </a>
+            </div>
+
+            <div class="dashboard-panel">
+
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Order Number</th>
+                                <th>Supplier</th>
+                                <th>Order Date</th>
+                                <th>Expected Date</th>
+                                <th>Status</th>
+                                <th>Created By</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for order in purchase_orders %}
+                                <tr>
+                                    <td><strong>{{ order.order_number }}</strong></td>
+                                    <td>{{ order.supplier.name }}</td>
+                                    <td>{{ order.order_date|date:"d M Y" }}</td>
+                                    <td>
+                                        {{ order.expected_date|date:"d M Y"|default:"—" }}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-secondary">
+                                            {{ order.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td>{{ order.created_by.first_name }}</td>
+                                    <td>
+                                        <a href="{% url 'purchase_order_detail' order.id %}"
+                                           class="btn btn-sm btn-outline-success">
+                                            View
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="7" class="text-center py-5">
+                                        <h5>No purchase orders yet</h5>
+                                        <p class="text-muted">
+                                            Create your first purchase order to get started.
+                                        </p>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}
