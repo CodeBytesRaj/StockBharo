@@ -166,3 +166,44 @@ def edit_product(request, product_id):
         }
     )
 
+@login_required(login_url='login')
+def delete_product(request, product_id):
+
+    membership = Membership.objects.filter(
+        user=request.user
+    ).select_related('organization').first()
+
+    if not membership:
+        messages.error(
+            request,
+            'You are not linked to any organization.'
+        )
+        return redirect('dashboard')
+
+    organization = membership.organization
+
+    product = get_object_or_404(
+        Product,
+        id=product_id,
+        organization=organization
+    )
+
+    if request.method == 'POST':
+        product.delete()
+
+        messages.success(
+            request,
+            'Product deleted successfully!'
+        )
+
+        return redirect('product_list')
+
+    return render(
+        request,
+        'products/delete_product.html',
+        {
+            'product': product,
+            'organization': organization,
+        }
+    )
+

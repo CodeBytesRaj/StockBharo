@@ -1,0 +1,157 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Edit Product | StockBharo{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">S</div>
+            <span>StockBharo</span>
+        </div>
+
+        <div class="sidebar-section-label">WORKSPACE</div>
+
+        <nav class="sidebar-nav">
+            <a href="{% url 'dashboard' %}" class="sidebar-link">
+                <span>▦</span> Dashboard
+            </a>
+
+            <a href="{% url 'product_list' %}" class="sidebar-link active">
+                <span>▤</span> Products
+            </a>
+
+            <a href="#" class="sidebar-link"><span>▧</span> Categories</a>
+            <a href="#" class="sidebar-link"><span>▥</span> Inventory</a>
+            <a href="#" class="sidebar-link"><span>♧</span> Suppliers</a>
+            <a href="#" class="sidebar-link"><span>▣</span> Purchase Orders</a>
+            <a href="#" class="sidebar-link"><span>₹</span> Sales</a>
+
+            <div class="sidebar-section-label mt-4">INSIGHTS</div>
+
+            <a href="#" class="sidebar-link"><span>◫</span> Analytics</a>
+            <a href="#" class="sidebar-link"><span>♧</span> Notifications</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="#" class="sidebar-link"><span>⚙</span> Settings</a>
+            <a href="{% url 'logout' %}" class="sidebar-link logout-link">
+                <span>↗</span> Logout
+            </a>
+        </div>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-topbar">
+            <div>
+                <h2>Edit Product</h2>
+                <p>Update your product information.</p>
+            </div>
+        </header>
+
+        <section class="dashboard-content">
+
+            <div class="dashboard-heading">
+                <div>
+                    <h3>Edit {{ product.name }}</h3>
+                    <p>Business: {{ organization.name }}</p>
+                </div>
+
+                <a href="{% url 'product_list' %}" class="secondary-action">
+                    Back to Products
+                </a>
+            </div>
+
+            <div class="dashboard-panel product-form-panel">
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="row g-4">
+
+                        <div class="col-md-6">
+                            <label class="form-label">Product Name</label>
+                            {{ form.name }}
+                            {{ form.name.errors }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">SKU</label>
+                            {{ form.sku }}
+                            {{ form.sku.errors }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Category</label>
+                            {{ form.category }}
+                            {{ form.category.errors }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Unit</label>
+                            {{ form.unit }}
+                            {{ form.unit.errors }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Cost Price (₹)</label>
+                            {{ form.cost_price }}
+                            {{ form.cost_price.errors }}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Selling Price (₹)</label>
+                            {{ form.selling_price }}
+                            {{ form.selling_price.errors }}
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+                            {{ form.description }}
+                            {{ form.description.errors }}
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-check">
+                                {{ form.is_active }}
+                                <label class="form-check-label">
+                                    Active Product
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="d-flex gap-3">
+                        <button type="submit" class="primary-action">
+                            Update Product
+                        </button>
+
+                        <a href="{% url 'product_list' %}" class="secondary-action">
+                            Cancel
+                        </a>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}
