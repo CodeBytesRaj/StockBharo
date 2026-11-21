@@ -1,4 +1,4 @@
-
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -11,6 +11,7 @@ from .forms import ProductForm
 # ==========================================
 # 1. PRODUCT LIST
 # ==========================================
+
 
 @login_required(login_url='login')
 def product_list(request):
@@ -25,20 +26,33 @@ def product_list(request):
             'products/product_list.html',
             {
                 'products': [],
-                'organization': None
+                'organization': None,
+                'search_query': '',
             }
         )
 
     organization = membership.organization
 
+    search_query = request.GET.get('q', '').strip()
+
     products = Product.objects.filter(
         organization=organization,
         is_active=True
-    ).select_related('category').order_by('-created_at')
+    ).select_related('category')
+
+    if search_query:
+        products = products.filter(
+            Q(name__icontains=search_query) |
+            Q(sku__icontains=search_query) |
+            Q(category__name__icontains=search_query)
+        )
+
+    products = products.order_by('-created_at')
 
     context = {
         'products': products,
         'organization': organization,
+        'search_query': search_query,
     }
 
     return render(
@@ -46,6 +60,7 @@ def product_list(request):
         'products/product_list.html',
         context
     )
+
 
 
 # ==========================================

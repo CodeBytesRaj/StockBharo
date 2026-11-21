@@ -83,10 +83,34 @@
 
             <div class="dashboard-panel">
 
-                <div class="product-table-header">
-                    <h4>Product Inventory</h4>
-                    <span>{{ products|length }} products</span>
-                </div>
+                
+<div class="product-table-header">
+    <h4>Product Inventory</h4>
+    <span>{{ products|length }} products</span>
+</div>
+
+<form method="GET" class="product-search-form">
+
+    <input
+        type="text"
+        name="q"
+        class="form-control"
+        placeholder="Search by product name, SKU or category..."
+        value="{{ search_query }}"
+    >
+
+    <button type="submit" class="primary-action">
+        Search
+    </button>
+
+    {% if search_query %}
+        <a href="{% url 'product_list' %}" class="secondary-action">
+            Clear
+        </a>
+    {% endif %}
+
+</form>
+
 
                 <div class="table-responsive">
 

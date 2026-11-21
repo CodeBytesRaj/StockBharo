@@ -988,3 +988,97 @@ button {
         padding: 20px;
     }
 }
+
+/* Delete Product Confirmation */
+
+.delete-confirm-panel {
+    max-width: 650px;
+    margin: 40px auto;
+    padding: 45px 30px;
+    text-align: center;
+}
+
+.delete-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #fff0f0;
+    color: #dc3545;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.delete-confirm-panel h3 {
+    color: #101b2d;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.delete-confirm-panel p {
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.delete-warning {
+    color: #dc3545 !important;
+    font-weight: 600;
+}
+
+.delete-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 20px;
+    border: 1px solid #dc3545;
+    border-radius: 8px;
+    background: #dc3545;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.delete-action:hover {
+    background: #bb2d3b;
+    border-color: #bb2d3b;
+    color: #ffffff;
+}
+
+/* Product Search */
+
+.product-search-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 0;
+    flex-wrap: wrap;
+}
+
+.product-search-form .form-control {
+    max-width: 420px;
+    min-height: 44px;
+    border: 1px solid #dce3eb;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+}
+
+.product-search-form .form-control:focus {
+    border-color: #16a58a;
+    box-shadow: 0 0 0 3px rgba(22, 165, 138, 0.12);
+    outline: none;
+}
+
+@media (max-width: 576px) {
+    .product-search-form .form-control {
+        max-width: 100%;
+        width: 100%;
+    }
+}
