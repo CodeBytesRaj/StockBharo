@@ -1,0 +1,257 @@
+
+{% extends 'base.html' %}
+
+{% block title %}StockBharo | Smart Inventory Management{% endblock %}
+
+{% block content %}
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg bg-white border-bottom py-3">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold fs-4" href="#">
+            <span style="color: #16A58A;">Stock</span>Bharo
+        </a>
+
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav mx-auto gap-lg-4">
+                <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+                <li class="nav-item"><a class="nav-link" href="#how-it-works">How it works</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+            </ul>
+
+            <div class="d-flex gap-2">
+                <a href="#" class="btn btn-light px-3">Login</a>
+                <a href="#" class="btn btn-stockbharo">Get Started</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero-section py-5">
+    <div class="container py-lg-5">
+        <div class="row align-items-center g-5">
+
+            <div class="col-lg-6">
+                <span class="hero-badge">
+                    SMART INVENTORY MANAGEMENT
+                </span>
+
+                <h1 class="hero-title mt-4">
+                    Manage your stock.
+                    <span>Grow your business.</span>
+                </h1>
+
+                <p class="hero-description mt-4">
+                    Take control of your inventory with smarter stock tracking,
+                    supplier management and actionable business insights.
+                    Everything your business needs in one place.
+                </p>
+
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                    <a href="#" class="btn btn-stockbharo btn-lg">
+                        Start Managing Stock →
+                    </a>
+                    <a href="#features" class="btn btn-outline-secondary btn-lg">
+                        Explore Features
+                    </a>
+                </div>
+
+                <p class="small text-muted mt-4">
+                    Built for growing retail businesses.
+                </p>
+            </div>
+
+            <!-- DASHBOARD PREVIEW -->
+            <div class="col-lg-6">
+                <div class="hero-dashboard stock-card">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h5 class="fw-bold mb-1">Business Overview</h5>
+                            <small class="text-muted">Illustrative demo dashboard</small>
+                        </div>
+                        <span class="demo-status">DEMO</span>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="preview-stat">
+                                <small>Total Products</small>
+                                <h3>1,248</h3>
+                                <span>Inventory catalogue</span>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="preview-stat">
+                                <small>Low Stock Items</small>
+                                <h3>18</h3>
+                                <span>Need attention</span>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="preview-stat">
+                                <small>Suppliers</small>
+                                <h3>32</h3>
+                                <span>Supplier records</span>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="preview-stat">
+                                <small>Stock Movements</small>
+                                <h3>86</h3>
+                                <span>This month</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="preview-chart mt-4">
+                        <div class="d-flex justify-content-between">
+                            <strong>Inventory Activity</strong>
+                            <small class="text-muted">Demo data</small>
+                        </div>
+
+                        <div class="chart-bars">
+                            <span style="height: 45%;"></span>
+                            <span style="height: 70%;"></span>
+                            <span style="height: 55%;"></span>
+                            <span style="height: 85%;"></span>
+                            <span style="height: 65%;"></span>
+                            <span style="height: 95%;"></span>
+                            <span style="height: 75%;"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES SECTION -->
+<section id="features" class="py-5 bg-white">
+    <div class="container py-5">
+
+        <div class="text-center mb-5">
+            <span class="section-label">POWERFUL FEATURES</span>
+            <h2 class="section-title mt-2">
+                Everything you need to manage inventory
+            </h2>
+            <p class="text-muted">
+                Replace scattered spreadsheets with one organized workspace.
+            </p>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h5>Inventory Tracking</h5>
+                    <p>Track products, quantities, stock movements and availability.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">🚚</div>
+                    <h5>Supplier Management</h5>
+                    <p>Organize supplier details and connect suppliers with products.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h5>Business Analytics</h5>
+                    <p>Understand inventory trends and identify products needing attention.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h5>Low Stock Alerts</h5>
+                    <p>Identify products that may need replenishment.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">🛒</div>
+                    <h5>Purchase Management</h5>
+                    <p>Organize purchase orders and incoming inventory.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h5>Team Access</h5>
+                    <p>Manage Owner, Manager and Staff roles in your workspace.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" class="py-5">
+    <div class="container py-5 text-center">
+        <span class="section-label">SIMPLE WORKFLOW</span>
+        <h2 class="section-title mt-2">Get started in three steps</h2>
+
+        <div class="row g-4 mt-4">
+
+            <div class="col-md-4">
+                <div class="step-number">01</div>
+                <h5>Create your workspace</h5>
+                <p class="text-muted">Set up your business and invite your team.</p>
+            </div>
+
+            <div class="col-md-4">
+                <div class="step-number">02</div>
+                <h5>Add your inventory</h5>
+                <p class="text-muted">Organize products, categories and suppliers.</p>
+            </div>
+
+            <div class="col-md-4">
+                <div class="step-number">03</div>
+                <h5>Monitor and improve</h5>
+                <p class="text-muted">Track stock activity and make informed decisions.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section id="about" class="cta-section py-5">
+    <div class="container text-center py-5">
+        <h2>Bring clarity to your inventory.</h2>
+        <p class="mt-3">One workspace. Better visibility. Smarter stock management.</p>
+        <a href="#" class="btn btn-light btn-lg mt-3">Get Started →</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-white py-4 border-top">
+    <div class="container d-flex flex-wrap justify-content-between gap-2">
+        <strong><span style="color: #16A58A;">Stock</span>Bharo</strong>
+        <small class="text-muted">Smart Inventory & Demand Intelligence Platform</small>
+        <small class="text-muted">© 2026 StockBharo</small>
+    </div>
+</footer>
+
+{% endblock %}

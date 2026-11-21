@@ -1,0 +1,291 @@
+
+/* =================================
+   STOCKBHARO - GLOBAL DESIGN SYSTEM
+================================= */
+
+:root {
+    --primary: #16A58A;
+    --primary-dark: #10846F;
+    --navy: #101B2D;
+    --background: #F5F7FA;
+    --white: #FFFFFF;
+    --text-dark: #172033;
+    --text-muted: #718096;
+    --border: #E7EBF0;
+    --accent: #F0A34A;
+
+    --radius: 14px;
+    --shadow: 0 8px 30px rgba(16, 27, 45, 0.06);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", "Segoe UI", sans-serif;
+    background: var(--background);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+/* Primary button */
+
+.btn-stockbharo {
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 9px;
+    padding: 12px 24px;
+    font-weight: 600;
+    transition: 0.25s ease;
+}
+
+.btn-stockbharo:hover {
+    background: var(--primary-dark);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+/* Reusable cards */
+
+.stock-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+}
+
+/* Muted text */
+
+.text-muted-custom {
+    color: var(--text-muted);
+}
+
+/* =================================
+   STOCKBHARO - MARKETING HOMEPAGE
+================================= */
+
+/* Hero section */
+
+.hero-section {
+    background:
+        radial-gradient(circle at 85% 20%, rgba(22, 165, 138, 0.10), transparent 35%),
+        linear-gradient(135deg, #F5F7FA 0%, #FFFFFF 100%);
+    overflow: hidden;
+}
+
+.hero-badge,
+.section-label {
+    display: inline-block;
+    color: var(--primary-dark);
+    background: rgba(22, 165, 138, 0.10);
+    padding: 8px 14px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+}
+
+.hero-title {
+    font-size: clamp(2.5rem, 5vw, 4.2rem);
+    line-height: 1.12;
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: var(--navy);
+}
+
+.hero-title span {
+    display: block;
+    color: var(--primary);
+}
+
+.hero-description {
+    max-width: 530px;
+    color: var(--text-muted);
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+/* Dashboard preview */
+
+.hero-dashboard {
+    padding: 28px;
+    transform: rotate(1deg);
+}
+
+.demo-status {
+    color: var(--primary-dark);
+    background: rgba(22, 165, 138, 0.12);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.preview-stat {
+    padding: 17px;
+    background: #F7F9FB;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.preview-stat small {
+    color: var(--text-muted);
+}
+
+.preview-stat h3 {
+    font-weight: 800;
+    color: var(--navy);
+    margin: 8px 0 2px;
+}
+
+.preview-stat span {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.preview-chart {
+    padding: 18px;
+    background: #F7F9FB;
+    border-radius: 12px;
+}
+
+.chart-bars {
+    height: 130px;
+    display: flex;
+    align-items: end;
+    justify-content: space-around;
+    gap: 12px;
+    padding-top: 18px;
+}
+
+.chart-bars span {
+    width: 9%;
+    background: linear-gradient(180deg, #16A58A, #8BDAC7);
+    border-radius: 6px 6px 0 0;
+}
+
+/* Section headings */
+
+.section-title {
+    color: var(--navy);
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+/* Feature cards */
+
+.feature-card {
+    height: 100%;
+    padding: 28px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow);
+    border-color: rgba(22, 165, 138, 0.4);
+}
+
+.feature-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(22, 165, 138, 0.10);
+    border-radius: 14px;
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+.feature-card h5 {
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: var(--text-muted);
+    margin-bottom: 0;
+    line-height: 1.7;
+}
+
+/* How it works */
+
+.step-number {
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: white;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+#how-it-works h5 {
+    font-weight: 700;
+    color: var(--navy);
+}
+
+/* Call to action */
+
+.cta-section {
+    background: var(--navy);
+    color: white;
+}
+
+.cta-section h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+}
+
+.cta-section p {
+    color: #C5D0DE;
+}
+
+/* Mobile responsiveness */
+
+@media (max-width: 768px) {
+    .hero-title {
+        letter-spacing: -1px;
+    }
+
+    .hero-dashboard {
+        transform: none;
+        padding: 18px;
+    }
+
+    .hero-description {
+        font-size: 15px;
+    }
+
+    .feature-card {
+        padding: 22px;
+    }
+}
