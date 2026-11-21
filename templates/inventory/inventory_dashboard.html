@@ -1,0 +1,262 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Inventory | StockBharo{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-layout">
+
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+
+        <div class="sidebar-brand">
+            <div class="brand-icon">S</div>
+            <span>StockBharo</span>
+        </div>
+
+        <div class="sidebar-section-label">WORKSPACE</div>
+
+        <nav class="sidebar-nav">
+
+            <a href="{% url 'dashboard' %}" class="sidebar-link">
+                <span>▦</span> Dashboard
+            </a>
+
+            <a href="{% url 'product_list' %}" class="sidebar-link">
+                <span>▤</span> Products
+            </a>
+
+            <a href="#" class="sidebar-link">
+                <span>▧</span> Categories
+            </a>
+
+            <a href="{% url 'inventory_dashboard' %}" class="sidebar-link active">
+                <span>▥</span> Inventory
+            </a>
+
+            <a href="#" class="sidebar-link"><span>♧</span> Suppliers</a>
+            <a href="#" class="sidebar-link"><span>▣</span> Purchase Orders</a>
+            <a href="#" class="sidebar-link"><span>₹</span> Sales</a>
+
+            <div class="sidebar-section-label mt-4">INSIGHTS</div>
+
+            <a href="#" class="sidebar-link"><span>◫</span> Analytics</a>
+            <a href="#" class="sidebar-link"><span>♧</span> Notifications</a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="#" class="sidebar-link">
+                <span>⚙</span> Settings
+            </a>
+
+            <a href="{% url 'logout' %}" class="sidebar-link logout-link">
+                <span>↗</span> Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <header class="dashboard-topbar">
+
+            <div>
+                <h2>Inventory Management</h2>
+                <p>Monitor and manage your business stock.</p>
+            </div>
+
+            <div class="topbar-actions">
+
+                <div class="user-profile">
+
+                    <div class="user-avatar">
+                        {{ request.user.first_name|first|upper }}
+                    </div>
+
+                    <div>
+                        <strong>{{ request.user.first_name }}</strong>
+                        <small>Inventory Management</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <section class="dashboard-content">
+
+            <div class="dashboard-heading">
+
+                <div>
+                    <h3>Inventory Overview</h3>
+                    <p>Current stock for {{ organization.name }}</p>
+                </div>
+
+                <a href="{% url 'stock_movement' %}" class="primary-action">
+                    + Record Stock Movement
+                </a>
+
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <span>Total Products</span>
+                        <span class="stat-icon">▤</span>
+                    </div>
+
+                    <h3>{{ total_products }}</h3>
+                    <p>Active products</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-card-top">
+                        <span>Tracked Products</span>
+                        <span class="stat-icon">▥</span>
+                    </div>
+
+                    <h3>{{ inventories|length }}</h3>
+                    <p>Products with inventory records</p>
+                </div>
+
+            </div>
+
+            <!-- Inventory Table -->
+            <div class="dashboard-panel">
+
+                <div class="product-table-header">
+                    <h4>Current Stock</h4>
+                    <span>{{ inventories|length }} records</span>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table align-middle">
+
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>SKU</th>
+                                <th>Category</th>
+                                <th>Available Quantity</th>
+                                <th>Last Updated</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for item in inventories %}
+
+                            <tr>
+
+                                <td>
+                                    <strong>{{ item.product.name }}</strong>
+                                </td>
+
+                                <td>{{ item.product.sku }}</td>
+
+                                <td>{{ item.product.category.name }}</td>
+
+                                <td>
+                                    <strong>{{ item.quantity }}</strong>
+                                    {{ item.product.unit }}
+                                </td>
+
+                                <td>{{ item.updated_at|date:"d M Y, h:i A" }}</td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+                                <td colspan="5" class="text-center py-5">
+                                    No inventory records yet.
+                                    Record your first stock movement to get started.
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <!-- Recent Stock Movements -->
+            <div class="dashboard-panel mt-4">
+
+                <div class="product-table-header">
+                    <h4>Recent Stock Movements</h4>
+                    <span>Latest 10 transactions</span>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table align-middle">
+
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Movement Type</th>
+                                <th>Quantity</th>
+                                <th>Note</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for movement in recent_movements %}
+
+                            <tr>
+
+                                <td>
+                                    <strong>{{ movement.product.name }}</strong>
+                                </td>
+
+                                <td>{{ movement.get_movement_type_display }}</td>
+
+                                <td>{{ movement.quantity }}</td>
+
+                                <td>{{ movement.note|default:"—" }}</td>
+
+                                <td>{{ movement.created_at|date:"d M Y, h:i A" }}</td>
+
+                            </tr>
+
+                            {% empty %}
+
+                            <tr>
+                                <td colspan="5" class="text-center py-5">
+                                    No stock movements recorded yet.
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+{% endblock %}
