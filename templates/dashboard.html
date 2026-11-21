@@ -1,0 +1,98 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard | StockBharo{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Sidebar -->
+        <aside class="col-md-2 bg-dark text-white min-vh-100 p-4">
+            <h3 class="mb-5">StockBharo</h3>
+
+            <nav class="nav flex-column gap-3">
+                <a href="{% url 'dashboard' %}" class="nav-link text-white">
+                    Dashboard
+                </a>
+                <a href="#" class="nav-link text-white">
+                    Products
+                </a>
+                <a href="#" class="nav-link text-white">
+                    Categories
+                </a>
+                <a href="#" class="nav-link text-white">
+                    Inventory
+                </a>
+                <a href="#" class="nav-link text-white">
+                    Suppliers
+                </a>
+                <a href="#" class="nav-link text-white">
+                    Sales
+                </a>
+                <a href="#" class="nav-link text-white">
+                    Analytics
+                </a>
+            </nav>
+
+            <div class="mt-5">
+                <a href="{% url 'logout' %}" class="nav-link text-white">
+                    Logout
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="col-md-10 p-4">
+
+            <h2>Welcome to StockBharo!</h2>
+            <p class="text-muted">
+                Here's what's happening with your inventory today.
+            </p>
+
+            <div class="row mt-4 g-3">
+
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm">
+                        <h6>Total Products</h6>
+                        <h2>0</h2>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm">
+                        <h6>Low Stock Items</h6>
+                        <h2>0</h2>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm">
+                        <h6>Total Suppliers</h6>
+                        <h2>0</h2>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card p-3 shadow-sm">
+                        <h6>Today's Sales</h6>
+                        <h2>₹0</h2>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card shadow-sm p-4 mt-4">
+                <h5>Inventory Overview</h5>
+                <p class="text-muted">
+                    Your inventory analytics will appear here.
+                </p>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+{% endblock %}
